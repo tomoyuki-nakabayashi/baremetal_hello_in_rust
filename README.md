@@ -1,0 +1,1 @@
+# baremetal_hello_in_rust
