@@ -22,7 +22,7 @@ $(elf): hello $(assembly_object_files) $(linker_script)
 	@ld -n -T $(linker_script) -o $(elf) $(assembly_object_files) $(hello)
 
 hello:
-	@xargo build --release --target $(target)
+	@RUST_TARGET_PATH=$(shell pwd) xargo build --release --target $(target)
 
 # Compile assembly files
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm

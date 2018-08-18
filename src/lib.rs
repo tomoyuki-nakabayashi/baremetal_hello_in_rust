@@ -2,22 +2,19 @@
 #![feature(asm)]
 #![no_std]
 
+extern crate volatile;
+use volatile::Volatile;
+
+static HELLO: &[u8] = b"Hello from Rust!";
+
 #[no_mangle]
 pub extern fn rust_main() {
-  unsafe {
-    asm!("mov rax, 0x10000000" :::: "intel");
-    asm!("mov rbx, 0x48" :::: "intel");
-    asm!("mov [rax], rbx" :::: "intel");
-    asm!("mov rbx, 0x65" :::: "intel");
-    asm!("mov [rax], rbx" :::: "intel");
-    asm!("mov rbx, 0x6c" :::: "intel");
-    asm!("mov [rax], rbx" :::: "intel");
-    asm!("mov rbx, 0x6c" :::: "intel");
-    asm!("mov [rax], rbx" :::: "intel");
-    asm!("mov rbx, 0x6f" :::: "intel");
-    asm!("mov [rax], rbx" :::: "intel");
-    asm!("mov rbx, 0x0a" :::: "intel");
-    asm!("mov [rax], rbx" :::: "intel");
+  let uart16550 = 0x10000000 as *mut Volatile<u8>;
+
+  for &byte in HELLO.iter() {
+    unsafe {
+      (*uart16550).write(byte);
+    }
   }
 }
 
