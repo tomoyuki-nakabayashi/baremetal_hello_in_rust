@@ -5,7 +5,7 @@
 extern crate volatile;
 use volatile::Volatile;
 
-static HELLO: &[u8] = b"Hello from Rust!";
+static HELLO: &[u8] = b"Hello from Rust!\n";
 
 #[no_mangle]
 pub extern fn rust_main() {
